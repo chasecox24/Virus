@@ -1,16 +1,16 @@
 //MAKE A POPUP VIRUS USING C++
 
 #include <iostream>
-#include<thread> 
-#include <Windows.h>
+#include<thread> // this is for creating threads to run multiple functions at the same time
+#include <Windows.h> // this is for creating popups and playing sound effects
 
 #include<random>
 
-void createRegularPopup()
-{
-	MessageBoxA(NULL, "So you are a big boy??\n Press the button", "BigBoy Popup", MB_OKCANCEL | MB_ICONASTERISK);
-	//how do I make this bigger?????
-}
+//void createRegularPopup()
+//{
+//	MessageBoxA(NULL, "So you are a big boy??\n Press the button", "BigBoy Popup", MB_OKCANCEL | MB_ICONASTERISK);
+//	//how do I make this bigger?????
+//}
 
 void createVirusPopup()
 {
@@ -22,9 +22,13 @@ void createVirusPopup()
 	// a macro is a preprocessor directive that defines a constant value or a function-like macro that can be used in the code
 	// a preprocessor directive is a line of code that is processed by the preprocessor before the actual compilation of the code
 	// 
-	// this line of code will create a popup with the specified text, caption, and type
-	MessageBoxA(NULL, "This is a popup virus!\n HAHAAHAH NOOB MAN BOY!!!!", "Popup Virus", MB_OK | MB_ICONWARNING); 
-	
+
+	while (true) // this will create an infinite loop that will keep creating popups until the program is closed
+	{
+		// this line of code will create a popup with the specified text, caption, and type
+		MessageBoxA(NULL, "This is a popup virus!\n HAHAAHAH NOOB MAN BOY!!!!", "Popup Virus", MB_OK | MB_ICONWARNING);
+	}
+
 	// disable the ability to close the popup by clicking the X button
 
 	// disable the ability to close the popup by clicking the ok button
@@ -33,8 +37,7 @@ void createVirusPopup()
 
 void playSFX()
 {
-
-	for (int i = 0; i <= 10; i++)
+	while (true)
 	{
 		system("LaughSFX.mp3"); // play a sound effect when the popup is created
 		Sleep(1'500); // sleep 1.5 seconds
@@ -42,22 +45,22 @@ void playSFX()
 }
 
 
-int main()
+int main() // this is a main thread
 {
-	createRegularPopup(); // creates the regular popup and waits for input on the ok or cancel
-	
+	//createRegularPopup(); // creates the regular popup and waits for input on the ok or cancel
 	//how to play the SFX and display the popup at the same time?????
 
-	playSFX(); // laugh at the fool noob boy
+	//creating the threads to run the playSFX and createVirusPopup functions at the same time
+	std::thread firstThread(playSFX);
+	std::thread secondThread(createVirusPopup);
+
+	firstThread.detach(); // this will allow the first thread to run independently of the main thread
+	secondThread.detach(); // this will allow the second thread to run independently of the main thread
 	
-	std::thread firstThread; 
+	while (true) // this will keep the main thread running indefinitely
+	{
+		Sleep(1'000); // sleep for 1 second to prevent the main thread from consuming too much CPU resources
+		// we can add some code here to do something else while the popups are being created and the sound effect is being played
+	}
 
-	createVirusPopup(); // display popup and disable mouse input and ability to close program
-
-
-	std::thread secondThread; 
-	//createur
-	createVirusPopup(); 
-
-	
 }
